@@ -8,9 +8,9 @@ header-img: img/post-bg-cook.jpg
 catalog: true
 tags:
     - java
----  
+---
 
-##前言
+## 前言
     冯·诺伊曼结构（英語：Von Neumann architecture），也称馮·紐曼模型（Von Neumann model）或普林斯顿结构（Princeton architecture），
 是一种将程序指令存储器和数据存储器合并在一起的電腦設計概念结构。本詞描述的是一種實作通用圖靈機的計算裝置，以及一種相對於平行計算的
 序列式架構參考模型（referential model）。
