@@ -17,7 +17,7 @@ tags:
     的是一種實作通用圖靈機的計算裝置，以及一種相對於平行計算的序列式架構參考模型（referential model）。
 
 ![](https://img-blog.csdn.net/20171023175841366?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
-
+ 
 > 其主要特点有：
     
     1.以运算单元为中心
