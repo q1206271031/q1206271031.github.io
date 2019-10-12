@@ -29,7 +29,7 @@ tags:
 
 ![](https://img-blog.csdn.net/20171023180044611?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
-  例如：存储器中一条命令，这个命令是ADD 123 321,ADD表示要做的事情（相加），后面是参数相加动作的两个数。
+> 例如：存储器中一条命令，这个命令是ADD 123 321,ADD表示要做的事情（相加），后面是参数相加动作的两个数。
     
     （1）通过命令记录员找到当前执行到的命令，并将命令提取出来放到命令控制器中的指令暂存处
 
@@ -129,7 +129,7 @@ _程序执行过程_
 
      (2)执行mov a,4,将数据区相应区域给变量a赋值为4，然后程序计数器指向下一条语句，mov b,3
      
- ![](https://img-blog.csdn.net/20171023181303267?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://img-blog.csdn.net/20171023181303267?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
     （3）执行mov b,3,将数据区中变量b相应的位置被赋值为3，然后程序计数器指向下一条语句
     
@@ -156,14 +156,6 @@ _程序执行过程_
     一句程序有可能转换为多句指令
     程序执行过程中是在内存中完成的
     程序在执行过程中，在内存中的不同区域来存放代码和相关数据
-    
-
-
-
-
-
-
-
-
-
-
+  
+  
+  
