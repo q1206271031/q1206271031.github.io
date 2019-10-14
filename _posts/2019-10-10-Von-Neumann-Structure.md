@@ -16,7 +16,7 @@ tags:
     （Princeton architecture），是一种将程序指令存储器和数据存储器合并在一起的電腦設計概念结构。本詞描述
     的是一種實作通用圖靈機的計算裝置，以及一種相對於平行計算的序列式架構參考模型（referential model）。
 
-![](https://img-blog.csdn.net/20171023175841366?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/1.png)
  
 > 其主要特点有：
     
@@ -27,7 +27,7 @@ tags:
     5.指令由操作码和地址码组成
     6.数据以二进制编码
 
-![](https://img-blog.csdn.net/20171023180044611?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/2.png)
 
 > 例如：存储器中一条命令，这个命令是ADD 123 321,ADD表示要做的事情（相加），后面是参数相加动作的两个数。
     
@@ -51,7 +51,7 @@ tags:
     
 ### 存储器的种类
 
-![](https://img-blog.csdn.net/20171023180229574?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/3.png)
 
 ## 存储设备
 
@@ -89,7 +89,7 @@ tags:
     
 ## 程序运行原理
 
-![](https://img-blog.csdn.net/20171023180852891?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/4.png)
 
 > 执行的指令
 
@@ -111,7 +111,7 @@ tags:
 
 **程序的运行**
 
-![](https://img-blog.csdn.net/20171023181008876?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/5.png
 
 > 执行如下代码
 
@@ -125,30 +125,30 @@ _程序执行过程_
 
     （1）对于某个程序而言，在内存中会开辟两个区域，一个是代码区，一个是数据区，首先程序计数器指向待执行的第一条程序mov a,4 
     
-![](https://img-blog.csdn.net/20171023181140737?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/6.png)
 
      (2)执行mov a,4,将数据区相应区域给变量a赋值为4，然后程序计数器指向下一条语句，mov b,3
      
-![](https://img-blog.csdn.net/20171023181303267?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/7.png)
 
     （3）执行mov b,3,将数据区中变量b相应的位置被赋值为3，然后程序计数器指向下一条语句
     
-![](https://img-blog.csdn.net/20171023181347974?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/8.png)
 
     （4）执行mov eax,a (eax代表运算器中的累加寄存器),控制器先去访问数据区中a的值，将值取出送到累加器中,
          然后程序计数器指向下一条语句
 
-![](https://img-blog.csdn.net/20171023181512712?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/9.png)
 
     （5）执行add eax,b,即将累加器中值与b的值相加，控制器先取出数据区中b的值3，送到运算器的缓冲寄存器，
          然后通过ALU(算术逻辑单元（Arithmetic&logical Unit）)完成相加的运算，结果存放在累加器中，
          然后程序计数器指向下一条语句
 
-![](https://img-blog.csdn.net/20171023183106247?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/10/1.png)
 
     （6）执行mov c,eax  ,含义是将累加器的值传递给变量c中,程序执行完毕
 
-![](https://img-blog.csdn.net/20171023183224799?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbmthaWJzdw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+![](https://github.com/q1206271031/photo/raw/master/1/11.png)
 
 > 小结
 
