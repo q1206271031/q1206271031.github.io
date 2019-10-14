@@ -148,7 +148,7 @@ _程序执行过程_
 
     （6）执行mov c,eax  ,含义是将累加器的值传递给变量c中,程序执行完毕
 
-![](https://github.com/q1206271031/photo/raw/master/1/11.png)
+![](https://github.com/q1206271031/photo/raw/master/1/11.png)  
 
 > 小结
 
