@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      collection,HashMap
+subtitle:   集合，哈希表
+date:       2019-10-18
+author:     BY
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - java
+---
+
 ### 集合
 
 ```java
