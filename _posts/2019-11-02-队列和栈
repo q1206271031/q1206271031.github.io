@@ -365,15 +365,50 @@ class MyQueue {
 	用A来表示栈中数据；
 	用B专门存放当前栈帧对应的最小值
 
-### 二叉树
+```java
+import java.util.Stack;
 
-> 树形结构核心特点：
+public class MinStack {
+    private Stack<Integer> A = new Stack<>();
+    private Stack<Integer> B = new Stack<>();
+    /** initialize your data structure here. */
+    public MinStack() {
 
-	一个父亲可以有多个孩子节点，但是任何一个孩子节点最多只能有一个父亲
+    }
 
-_***二叉树遍历[非常重要]：***_
+    public void push(int x) {
+        //1.先把元素插入A中
+        A.push(x);
+        //2.把当前最小值插入B中
+        if(B.isEmpty()){
+            B.push(x);
+            return;
+        }
+        //若B不为空，当前B的栈顶元素就是之前的最小
+        //之前的最小值和当前的新元素对比一下, 看看新的最小值是啥
+        int min = B.peek();
+        if(x < min){
+            min = x;
+        }
+        B.push(min);
+    }
 
-	1.先序遍历：先访问根节点再递归遍历左子树，再递归遍历右子树
-	2.中序遍历：二叉树的遍历:
-	3.后序遍历：先递归遍历左子树，再递归遍历右子树，再访问根节点
-	4.层序遍历.：按照每一层元素从左到右遍历即可.
+    public void pop() {
+        if(A.isEmpty()){
+            return;
+        }
+        A.pop();
+        B.pop();
+    }
+
+    public int top() {
+        return A.peek();
+    }
+
+    public int getMin() {
+        return B.peek();
+    }
+}
+
+```
+
