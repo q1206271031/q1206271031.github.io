@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      异常
+subtitle:   exception
+date:       2019-10-27
+author:     BY
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - java
+---
+
 ### 异常
 
 > 一种程序运行时机制
