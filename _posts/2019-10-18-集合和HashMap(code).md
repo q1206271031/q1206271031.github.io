@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      collection,HashMap
-subtitle:   集合，哈希表
+title:      collection,Map
+subtitle:   集合，表(哈希表)
 date:       2019-10-18
 author:     BY
 header-img: img/post-bg-cook.jpg
@@ -47,7 +47,7 @@ public class collection {
 
 ```
 
-### HashMap
+### Map
 
 ```java
 import java.util.HashMap;
