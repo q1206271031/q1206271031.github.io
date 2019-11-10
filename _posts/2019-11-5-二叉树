@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      二叉树
+subtitle:   二叉树
+date:       2019-11-05
+author:     BY
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - java
+---
+
 ### 二叉树
 
 > 树形结构核心特点：
