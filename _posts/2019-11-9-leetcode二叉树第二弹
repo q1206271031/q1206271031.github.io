@@ -1,0 +1,405 @@
+### 二叉树操作
+
+> 编一个程序，读入用户输入的一串先序遍历字符串，根据此字符串建立一个二叉树（以指针方式存储）。 
+  例如如下的先序遍历字符串： ABC##DE#G##F### 其中“#”表示的是空格，空格字符代表空树。建立起此二叉树以后，再对二叉树进行中序遍历，输出遍历结果。
+
+[链接](https://www.nowcoder.com/practice/4b91205483694f449f94c179883c1fef?tpId=60&&tqId=29483&rp=1&ru=/activity/oj&qru=/ta/tsing-kaoyan/question-ranking)
+
+```java
+import java.util.Scanner;
+class TreeNode{
+    public char val;
+    public TreeNode left;
+    public TreeNode right;
+
+    public TreeNode(char val) {
+        this.val = val;
+    }
+}
+//二叉树的构建及遍历（含有'#'(空的)）
+public class TreeBuildDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        //判断有没有下一个字符
+        while(scanner.hasNext()){
+            String line = scanner.next();
+            //line就是一组先序遍历的结果（带#）
+            TreeNode root = buildTree(line);
+            inOrder(root);
+            System.out.println();
+        }
+    }
+
+    static int index = 0;
+    public static TreeNode buildTree(String line){
+        //记录当前递归过程中遍历到第几个字符
+        index = 0;
+        return createTreePreOrder(line);
+    }
+    //这个辅助函数完成递归
+    public static TreeNode createTreePreOrder(String line){
+        char c = line.charAt(index);//根节点
+        if(c == '#'){
+            return null;
+        }
+        TreeNode root = new TreeNode(c);
+        index++;
+        root.left = createTreePreOrder(line);
+        index++;
+        root.right = createTreePreOrder(line);
+        return root;
+    }
+
+    public static void inOrder(TreeNode root){
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        System.out.print(root.val + " ");
+        inOrder(root.right);
+    }
+}
+```
+
+***注意：若TreeNode类中val为int类型，则所得结果会是131，因为char会ASCII转化为数字(c + " "),即99+32=131***
+
+> 给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）
+
+[链接](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+```java
+public class TreeDemo {
+    static class TreeNode{
+        int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x) { val = x; }
+    }
+
+    private List<List<Integer>> result = new ArrayList<>();
+    public List<List<Integer>> levelOrder(TreeNode root){
+        if (root == null) {
+            return result;
+        }
+        //正常二叉树的层数是从 1 开始计算
+        //此树为了和下标对应方便，就从0开始算
+        helper(root,0);
+        return result;
+    }
+    //辅助完成递归遍历的过程
+    private void helper(TreeNode root,int level){
+        if(level == result.size()){
+            //达到的第level层还没有对应的数组，此时就需要
+            //创建一个新的数组加入到result中
+            result.add(new ArrayList<>());
+        }
+        result.get(level).add(root.val);
+        if (root.left != null) {
+            helper(root.left,level + 1);
+        }
+        if (root.right != null) {
+            helper(root.right,level + 1);
+        }
+    }
+```
+
+> 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先
+
+***给定一个二叉树, 找到该树中两个指定节点的最近公共祖先：
+		从最近的公共祖先开始去找两个节点，一定都能找到，但是这两个节点一定不在同一个子树中***
+
+[链接](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+```java
+private TreeNode lca = null;//保存最近的公共祖先节点
+    //指定节点的最近公共祖先
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        //1.借助一个辅助函数，在root中递归查找p和q
+        //  设定辅助函数的返回值，如果找到返回1（找到1个或者都找到），没找到返回0
+        //2.这个递归查找的过程可以进一步拆开.递归在左子树中查找 + 递归在右子树中查找 + 对比根节点
+        //3.如果这三个位置中有两个地方找到了，这说明这个当前节点就是要找的最近公共祖先
+        if (root == null) {
+            return null;
+        }
+        //辅助函数
+        findNode(root,p,q);
+        return lca;
+    }
+
+    private boolean findNode(TreeNode root,TreeNode p,TreeNode q){
+        if (root == null) {
+            return false;
+        }
+        //递归在左子树中尝试找p和q
+        int left = findNode(root.left,p,q) ? 1 : 0;
+        //递归在右子树中尝试查找p和q
+        int right = findNode(root.right,p,q) ? 1 : 0;
+        //对比一下当前节点有没有找到（比较身份）
+        int mid = (root == p || root == q) ? 1 : 0;
+        if(left + right + mid >= 2){
+            //找到lca,就是当前的root
+            lca = root;
+        }
+        return (left + right + mid) > 0;
+    }
+```
+
+> 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
+
+***二叉搜索树是一种特殊的二叉树.为了加快搜索：
+		左子树的所有节点的值都小于根节点，根节点所有的值都小于右子树的值
+		二叉搜索树的中序遍历结果是有序的***
+
+[链接](https://www.nowcoder.com/practice/947f6eb80d944a84850b0538bf0ec3a5?tpId=13&&tqId=11179&rp=1&ru=/activity/oj&qru=/ta/coding-interviews/question-ranking)
+
+```java
+public TreeNode Convert(TreeNode pRootOfTree) {
+        //使用中序遍历，就能得到有序序列
+        //把相邻元素相互指向就行了.left指向前一个元素，right指向后一个元素
+        //1.判定特殊情况，如果是空树，或者只有一个节点
+        if (pRootOfTree == null) {
+            return null;
+        }
+        if (pRootOfTree.left == null && pRootOfTree.right == null) {
+            return pRootOfTree;
+        }
+        //2.递归把左子树变成双向链表，并返回这个链表的第一个节点
+        TreeNode left = Convert(pRootOfTree.left);
+        //递归完成，返回的left就是左侧头结点
+        //3.如果左侧链表头结点不为null,当前左侧链表的尾巴找到，
+        //  让左侧链表的为节点和当前root节点相互指向
+        TreeNode leftTail = left;
+        while (leftTail != null && leftTail.right != null) {
+            leftTail = leftTail.right;
+        }
+        //循环结束之后，leftTail就指向了左侧链表的最后一个节点
+        //时刻注意left可能为空的情况
+        if (left != null) {
+            //相互指向
+            leftTail.right = pRootOfTree;
+            pRootOfTree.left = leftTail;
+        }
+
+        //4.递归将右子树也构造后成双向链表，同时也得到右子树链表的第一个节点
+        TreeNode right = Convert(pRootOfTree.right);
+        //右侧链表就是right
+        //5.把右侧链表的头结点和当前节点相互指向
+        if(right != null){
+            //相互指向
+            pRootOfTree.right = right;
+            right.left = pRootOfTree;
+        }
+        //6.返回整个链表头节点
+        return left == null ? pRootOfTree : left;
+    }
+```
+
+> 根据一棵树的前序遍历与中序遍历构造二叉树
+
+***还原二叉树（三种方式）：
+1.先序遍历带有空节点
+2.先序不带空节点 + 中序遍历
+3.后序遍历 + 中序遍历***
+
+***先序 + 中序：看中序中若B在A左为左子树，B在A右为右子树***
+
+[链接](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+```java
+//表示先序遍历数组中，访问到第几个字符了
+    private int index = 0;
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        //每次构建要置0，因为在线OJ要多次测试
+        index = 0;
+        //在这个递归过程中，需要处理到某个具体的子树
+        //[0,inorder.length) 当前处理的子树对应的中序遍历结果是什么
+        return buildTreeHelper(preorder,inorder,0,inorder.length);//前闭后开区间
+    }
+
+    private TreeNode buildTreeHelper(int[] preoreder,int[] inorder,int inorderLeft,int inorderRight){
+        //先判定非法情况
+        if (inorderLeft >= inorderRight) {
+            //这颗子树的中序遍历时没有的.这是个空树
+            return null;
+        }
+        if (index >= preoreder.length) {
+            return null;
+        }
+        //取出当前值来构造当前子树的根节点
+        TreeNode root = new TreeNode(preoreder[index]);
+        index++;//取完这个节点就可以取下个节点
+        //需要找到这个节点在中序遍历中位置
+        //pos只要说先序遍历 和 中序遍历 序列都是对的
+        //pos 是一定能找到的
+        int pos = find(inorder,inorderLeft,inorderRight,root.val);
+        root.left = buildTreeHelper(preoreder,inorder,inorderLeft,pos);
+        root.right = buildTreeHelper(preoreder,inorder,pos + 1,inorderRight);
+        return root;
+    }
+
+    private int find(int[] inorder,int inorderLeft,int inorderRight,int val){
+        for (int i = inorderLeft; i < inorderRight; i++) {
+            if(inorder[i] == val){
+                return i;
+            }
+        }
+        return -1;
+    }
+```
+
+> 根据二叉树创建字符串
+
+[链接](https://leetcode-cn.com/problems/construct-string-from-binary-tree/)
+
+***1.如果一个树左右子树都为空，左右子树就可以省略
+2.如果左子树为空，右子树非空，那么左子树对应的括号就不能省略
+3.如果左子树非空，右子树为空，那么右子树对应的括号就可以省略
+根据先序遍历方式完成递归***
+
+```java
+//用来保存最终的字符串结果
+    private StringBuilder stringBuilder = new StringBuilder();
+    public String tree2str(TreeNode t) {
+        if (t == null) {
+            return "";
+        }
+        tree2strHelper(t);
+        stringBuilder.deleteCharAt(0);
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        return stringBuilder.toString();
+    }
+    private void tree2strHelper(TreeNode root){
+        if(root == null){
+            return;
+        }
+        //借助这个方法来完成递归的过程
+        //按照先序遍历的方式递归
+        stringBuilder.append("(");
+        //访问当前节点
+        stringBuilder.append(root.val);
+        //访问左子树
+        tree2strHelper(root.left);
+        //如果左子树为空，右子树非空，需要（）占位
+        if(root.left == null && root.right != null){
+            stringBuilder.append("()");
+        }
+        //访问右子树
+        tree2strHelper(root.right);
+        stringBuilder.append(")");
+    }
+```
+
+> 二叉树的前序遍历，非递归迭代实现
+
+[链接](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
+```java
+public static void preOrder(TreeNode root){
+        if (root == null) {
+            return;
+        }
+        //1.先创建一个栈
+        Stack<TreeNode> stack = new Stack<>();
+        //2.把根节点入栈
+        stack.push(root);
+        //3.循环取栈顶元素，访问
+        while(!stack.isEmpty()){
+            TreeNode cur = stack.pop();
+            System.out.println(cur.val);
+            //4.把当前元素的右子树和左子树分别入栈
+            if (cur.right != null) {
+                stack.push(cur.right);
+            }
+            if (cur.left != null) {
+                stack.push(cur.left);
+            }
+        }
+    }
+```
+
+> 二叉树中序遍历 ，非递归迭代实现
+
+***非递归的后序遍历：
+取出栈顶元素的时候，到底能不能访问这个元素，得判定下：
+1.如果栈顶元素没有右子树，就可以访问 
+2.如果栈顶元素右子树已经访问过了也可以访问
+后序遍历中当期节点和右子树的根节点是相邻的
+可以判定一下上一个元素是不是当前元素的右子树，如果是，当前元素的右子树已经访问过了，就可以访问当前元素***
+
+[链接](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+
+```java
+public static void inOrder(TreeNode root){
+        if (root == null) {
+            return;
+        }
+        //1.创建一个栈
+        Stack<TreeNode> stack = new Stack<>();
+        //2.创建一个cur变量从root出发
+        TreeNode cur = root;
+        while (true) {
+            //3.只要cur遇到的节点非null,就入栈，cur = cur.left
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            //4.当cur遇到null的，就出栈一个元素，访问这个元素
+            if(stack.isEmpty()){
+                //遍历结束了
+                break;
+            }
+            TreeNode top = stack.pop();
+            System.out.println(top.val);
+            //5.把cur指向当前元素的右子树
+            cur = top.right;
+        }
+    }
+```
+
+>  二叉树的后序遍历 ，非递归迭代实现
+
+[链接](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/)
+
+```java
+public static void postOrder(TreeNode root){
+        if (root == null) {
+            return;
+        }
+        //1.创建一个栈
+        Stack<TreeNode> stack = new Stack<>();
+        //2。传建一个cur从root出发
+        TreeNode cur = root;
+        //prev永远指向上次访问的节点
+        TreeNode prev = null;
+        while (true) {
+            //3.借助cur循环往左找，如果该节点不为null,入栈
+            while (cur != null){
+                stack.push(cur);
+                cur = cur.left;
+            }
+            //4.如果cur为null,取栈顶元素，准备访问
+            //  要是top是能访问，再pop，否则还要在栈里待着(因此要使用peek)
+            if(stack.isEmpty()){
+                //遍历结束
+                break;
+            }
+            TreeNode top = stack.peek();
+            //5.到底能不能访问栈顶元素，有两种情况：
+            //  a)栈顶元素没有右子树，就可以访问
+            //  b)如果栈顶元素右子树刚已经访问过，也可以访问
+            if(top.right == null || prev == top.right){
+                //这种情况说明可以访问top节点
+                System.out.println(top.val);
+                //访问成功出栈
+                stack.pop();
+                //同时要更新prev操作
+                prev = top;
+            }else{
+                //此时这个节点还不能访问
+                //6.cur指向栈顶元素的右子树
+                cur = top.right;
+            }
+        }
+    }
+```
+
