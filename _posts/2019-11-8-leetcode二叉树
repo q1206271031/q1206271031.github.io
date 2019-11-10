@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      二叉树leetcode
+subtitle:   二叉树
+date:       2019-11-08
+author:     BY
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - java
+---
+
 ### leetcode二叉树操作
 
 _***平衡二叉树：左右子树深度之差 <= 1***_
