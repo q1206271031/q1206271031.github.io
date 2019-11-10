@@ -1,3 +1,15 @@
+---
+layout:     post
+title:      二叉树leetcode第二弹
+subtitle:   二叉树
+date:       2019-11-09
+author:     BY
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - java
+---
+
 ### 二叉树操作
 
 > 编一个程序，读入用户输入的一串先序遍历字符串，根据此字符串建立一个二叉树（以指针方式存储）。 
