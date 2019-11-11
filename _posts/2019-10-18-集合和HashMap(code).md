@@ -49,6 +49,8 @@ public class collection {
 
 ### Map
 
+***如果put没有的key值，返回null***
+
 ```java
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +73,7 @@ public class mapTest {
         System.out.println(map.size());
         System.out.println(map.isEmpty());
         System.out.println(map.containsKey("作者"));
+        //map.entrySet 将key和value打包
         for(Map.Entry<String,String> entry : map.entrySet()){
             System.out.println(entry.getKey() + " " + entry.getValue());
             System.out.println();
@@ -79,3 +82,7 @@ public class mapTest {
 }
 
 ```
+
+
+
+
