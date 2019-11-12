@@ -133,6 +133,9 @@ public class reflect {
         不要不必要地使用StringBuffer，即，如果只有一个线程正在修改和访问它，则不要使用它，
         因为它具有大量用于同步的锁定和解锁代码，这将不必要地占用CPU时间。除非需要，否则不要使用锁。
         
+        String变成StringBuffer利用StringBuffer的构造方法或者append方法
+        StringBuffer变成String利用toString方法
+        
 ```java
 String x = "abc";
         for (int i = 0; i < 100; i++) {
@@ -141,7 +144,7 @@ String x = "abc";
 ```
 __这样会创建过多的临时变量__
 
-_***可以使用StringBuilder的append关键字来创建可变字符串
+_***可以使用StringBuilder的append关键字来创建可变字符串***_
 
 ```java
 String str = "hehe";
@@ -163,7 +166,7 @@ String str = "hehe";
         System.out.println(Integer.toHexString(stringBuilder.hashCode()));
 ```
 
-***对StringBuilder的地址进行判断是否是相同地址（true）
+***对StringBuilder的地址进行判断是否是相同地址（true）***
 
 ### 常规操作
 
