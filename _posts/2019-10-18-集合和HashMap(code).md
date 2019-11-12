@@ -10,6 +10,8 @@ tags:
     - java
 ---
 
+![](https://github.com/q1206271031/photo/raw/master/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/%E9%9B%86%E5%90%88%E7%9A%84%E6%8E%A5%E5%8F%A3%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE.png)
+
 ### 集合
 
 ```java
@@ -82,6 +84,12 @@ public class mapTest {
 }
 
 ```
+
+### 泛型
+
+1.放的是集合
+2.eg:boolean addAll(Collection<? extends E> c)
+ 放的是实例student->person，或者是E本身
 
 
 
