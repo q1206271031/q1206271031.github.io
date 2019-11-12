@@ -12,7 +12,13 @@ tags:
 
 ![](https://github.com/q1206271031/photo/raw/master/%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6/%E9%9B%86%E5%90%88%E7%9A%84%E6%8E%A5%E5%8F%A3%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB%E5%9B%BE.png)
 
+***其中粉色为接口，蓝色为抽象类，黄色为集合类***
+***接口间只能继承，接口与抽象类之间可继承，也可实现，而普通类只能继承抽象类才能使用抽象类中方法***
+
 ### 集合
+
+***Collection为集合
+Collections是操作集合的工具类***
 
 ```java
 import java.util.ArrayList;
@@ -118,6 +124,56 @@ public class NumberSort {
 }
 
 ```   
+
+> 对对象的某个属性排序
+
+***想要修改排序规则，更改compareTo方法即可***
+
+```java
+class Student implements Comparable<Student> {
+    public String name;
+    public String classes;
+    public double score;
+
+    public Student(String name, String classes, double score) {
+        this.name = name;
+        this.classes = classes;
+        this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", classroom='" + classes + '\'' +
+                ", grade=" + score +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return this.name.compareTo(o.name);
+    }
+}
+
+public class myList {
+    public static void main(String[] args) {
+        List<Student> list = new ArrayList<Student>();
+        list.add(new Student("赵", "一", 40));
+        list.add(new Student("钱", "二", 80));
+        list.add(new Student("孙", "三", 70));
+        list.add(new Student("李", "四", 50));
+        for (Student student : list) {
+            System.out.println(student);
+        }
+        System.out.println("========排序=========");
+        Collections.sort(list);
+        for(Student student : list){
+            System.out.println(student);
+        }
+    }
+}
+```
  
 > 洗牌代码
 
@@ -215,28 +271,30 @@ public class Triangle {
 > 删除第一个字符串中出现的第二个字符串中的内容
 
 ```java
-
+public class Mydelete {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String str1;
+        String str2;
+        List<Character> list = new ArrayList<>();
+        while(scanner.hasNext()){
+            str1 = scanner.nextLine();
+            str2 = scanner.nextLine();
+            if (str1 == null || str2 == null) {
+                return;
+            }
+            for (int i = 0; i < str1.length(); i++) {
+                if(!(str2.contains(str1.charAt(i) + ""))){
+                    list.add(str1.charAt(i));
+                }
+            }
+            for (int i = 0; i < list.size(); i++) {
+                System.out.print(list.get(i));
+            }
+        }
+    }
+}
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
