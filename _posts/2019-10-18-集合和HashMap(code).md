@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      collection,Map
-subtitle:   集合，表(哈希表)
+title:      collection,Map,List
+subtitle:   集合，表(哈希表)，泛型
 date:       2019-10-18
 author:     BY
 header-img: img/post-bg-cook.jpg
@@ -87,10 +87,84 @@ public class mapTest {
 
 ### 泛型
 
-1.放的是集合
-2.eg:boolean addAll(Collection<? extends E> c)
- 放的是实例student->person，或者是E本身
+> 1.放的是集合
 
+> 2.eg:boolean addAll(Collection<? extends E> c)
+ 
+    Collection里放的是实例student->person，或者是E本身，？为通配符
 
+> 3.List<E>subList(intfromIndex,inttoIndex)：
+    
+    截取部分list,set方法不产生新的对象，直接修改原对象
+    
+> 洗牌代码
+
+```java
+class Card{
+    public String suit;//花色
+    public String rank;//点数
+
+    public Card(String suit, String rank) {
+        this.suit = suit;
+        this.rank = rank;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + suit + " " + rank +  ")";
+    }
+}
+
+public class CardDemo {
+    public static final String[] SUITS = {"♥","♠","♣","♦"};
+    public static List<Card> buyPoker(){
+        List<Card> poker = new ArrayList<>();
+        for (int i = 0;i < 4;i++){
+            //负责构建4种花色
+            for (int j = 2;j <= 10;j++){
+                poker.add(new Card(SUITS[i],j + ""));
+            }
+            poker.add(new Card(SUITS[i],"J"));
+            poker.add(new Card(SUITS[i],"Q"));
+            poker.add(new Card(SUITS[i],"K"));
+            poker.add(new Card(SUITS[i],"A"));
+        }
+        return poker;
+    }
+    public static void main(String[] args) {
+        //1.创建一副牌
+        System.out.println("创建一副牌");
+        List<Card> poker = buyPoker();
+        //2.洗牌
+        Collections.shuffle(poker);
+        System.out.println(poker);
+        //3.发牌(有三个人，每人五张牌)
+        List<List<Card>> players = new ArrayList<>();
+        //三个新增的列表表示三个玩家的三幅手牌
+        players.add(new ArrayList<Card>());
+        players.add(new ArrayList<Card>());
+        players.add(new ArrayList<Card>());
+        //把牌依次发给三个玩家
+        for (int cardIndex = 0;cardIndex < 5;cardIndex++){
+            for (int playerIndex = 0;playerIndex < 3;playerIndex++){
+                //players.get(playerIndex).add(poker.remove(0));
+                List<Card> playerCards = players.get(playerIndex);
+                //最上面一张
+                Card curCard = poker.remove(0);
+                //虽然get一般表示读取数据，但也可以借助get完后修改
+                playerCards.add(curCard);
+            }
+        }
+        //输出玩家手牌
+        System.out.println("玩家1");
+        System.out.println(players.get(0));
+        System.out.println("玩家2");
+        System.out.println(players.get(1));
+        System.out.println("玩家3");
+        System.out.println(players.get(2));
+    }
+}
+
+```
 
 
