@@ -97,6 +97,28 @@ public class mapTest {
     
     截取部分list,set方法不产生新的对象，直接修改原对象
     
+> List中插入数字，给指定数字排序：
+
+```java
+public class NumberSort {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(5);
+        list.add(3);
+        list.add(7);
+        list.add(9);
+        list.add(2);
+        System.out.println(list);
+        Collections.sort(list);
+        for(Integer s : list){
+            System.out.println(s);
+        }
+    }
+}
+
+```   
+ 
 > 洗牌代码
 
 ```java
@@ -166,5 +188,55 @@ public class CardDemo {
 }
 
 ```
+
+> 杨辉三角问题
+
+[链接](https://leetcode-cn.com/problems/pascals-triangle/submissions/)
+
+```java
+public class Triangle {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            List<Integer> rows = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if(j == 0 || j == i){
+                    rows.add(1);
+                }
+                    rows.add(result.get(result.size() - 1).get(j - 1) + result.get(result.size() - 1).get(j));
+            }
+            result.add(rows);
+        }
+        return result;
+    }
+}
+```
+
+> 删除第一个字符串中出现的第二个字符串中的内容
+
+```java
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
