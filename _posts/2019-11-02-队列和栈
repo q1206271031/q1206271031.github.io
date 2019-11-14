@@ -20,7 +20,7 @@ public class MyStack {
     private int size = 0;
 
     //核心操作三个
-    //1.入栈
+    //1.入栈 
     public void push(int x){
         array[size] = x;
         size++;
