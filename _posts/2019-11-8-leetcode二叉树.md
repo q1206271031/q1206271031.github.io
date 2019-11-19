@@ -74,6 +74,16 @@ public class Solution {
         C.right = F;
         return A;
     }
+```
+
+***add与addAll***
+
+	List.add() 的含义就是：你往这个List 中添加对象，它就把自己当初一个对象，你往这个List中添加容器，它就把自己当成一个容器。
+	List.addAll()规定了，自己的这个List 就是容器，往里面增加的List 实例，增加到里面后，都会被看成对象。 
+	因此，当需要把多个List 实例放到一起的时候，必须使用List.addAll()方法。
+
+
+```
     //前序遍历
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<>();
@@ -88,6 +98,7 @@ public class Solution {
         result.addAll(preorderTraversal(root.right));
         return result;
     }
+    //若不使用addAll方法，只能利用返回值Node left = preorder(root.left); result.add(left);
 
     //中序遍历
     public List<Integer> inorderTraversal(TreeNode root) {
