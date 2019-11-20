@@ -289,6 +289,35 @@ public class Solution {
             }
         }
     }
+    
+    //层序遍历第二个版本
+    public List<List<Integer>> levelOrder2(TreeNode root) {
+        List<List<Integer>> ret = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        if(root != null) {
+            queue.offer(root);
+        }
+        //队列的元素 就是一层数据
+        while (!queue.isEmpty()) {
+            int count = queue.size();//1  2
+            //存放的是一层数据
+            List<Integer> list = new ArrayList<>();
+            while(count > 0) {
+                TreeNode cur = queue.poll();
+                System.out.print(cur.val+" ");
+                list.add(cur.val);
+                if(cur.left != null) {
+                    queue.offer(cur.left);
+                }
+                if(cur.right != null) {
+                    queue.offer(cur.right);
+                }
+                count--;//1 0
+            }
+            ret.add(list);
+        }
+        return ret;
+    }
 
     //完全二叉树
     public boolean isComplete(TreeNode root){
@@ -331,6 +360,33 @@ public class Solution {
                 }
             }   //end if
         }   //end while
+        return true;
+    }
+    
+    
+    //完全二叉树最终版
+    public boolean isCompleteTree(TreeNode node){
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (root != null) {
+            queue.offer(root);
+        }
+        while (!queue.isEmpty()) {
+            TreeNode cur = queue.poll();
+            if (cur != null) {
+                queue.offer(cur.left);
+                queue.offer(cur.right);
+            }else{
+                //最后一个节点
+                break;
+            }
+        }
+        //遍历队列元素，判断
+        while(!queue.isEmpty()){
+            TreeNode cur = queue.poll();
+            if (cur != null) {
+                return false;
+            }
+        }
         return true;
     }
 
