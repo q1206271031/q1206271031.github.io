@@ -327,6 +327,21 @@ public static void preOrder(TreeNode root){
             }
         }
     }
+    
+    //第二个版本
+    public static void preOrderTraversal(TreeNode root){
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+        while(cur != null || !stack.isEmpty()){
+            while (cur != null) {
+                stack.push(cur);
+                System.out.println(cur.val + " ");
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            cur = cur.right;
+        }
+    }
 ```
 
 > 二叉树中序遍历 ，非递归迭代实现
@@ -366,6 +381,25 @@ public static void inOrder(TreeNode root){
             cur = top.right;
         }
     }
+    
+    //中序遍历（非递归）第二个版本
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+        while (cur != null || !stack.empty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            cur = stack.pop();
+            System.out.print(cur.val + " ");
+            list.add(cur.val);
+            cur = cur.right;
+	}
+	return list;
+}
+
 ```
 
 >  二叉树的后序遍历 ，非递归迭代实现
@@ -412,6 +446,34 @@ public static void postOrder(TreeNode root){
                 cur = top.right;
             }
         }
+    }
+    
+    
+   //后序遍历（非递归）第二个版本
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode cur = root;
+        TreeNode flg = null;
+        while (cur != null || !stack.empty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            //cur==null
+            cur = stack.peek();
+            if(cur.right == null || cur.right==flg) {
+                System.out.print(cur.val);
+                list.add(cur.val);
+                stack.pop();
+                flg = cur;
+                cur = null;
+            }else {
+                cur = cur.right;
+            }
+
+        }
+        return list;
     }
 ```
 
