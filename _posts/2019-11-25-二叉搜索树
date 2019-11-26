@@ -1,0 +1,332 @@
+---
+layout:     post
+title:      二叉搜索树
+subtitle:   二叉搜索树
+date:       2019-11-25
+author:     BY
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - java
+---
+
+### 二叉搜索树
+
+***二叉树：遍历***
+
+> 1）堆：父节点和子节点之间关系
+
+    堆顶元素一定是最大值或者最小值
+    通过调整堆的方式（向上调整/向下调整），重新把一个不符合堆的结构变成符合的
+
+> 2）二叉搜索树：针对任何一颗子树来说，都要满足父节点>左子树，父节点<右子树
+
+***二叉搜索树中序遍历是有序的***
+
+    二叉搜索树最主要的功能就是高效的查找元素
+      1.查找：
+      2.插入：先找合适位置，再插入元素
+      3.删除：比较复杂，需要考虑多种情况
+        要想删除，需要先找到待删除的结点.cur
+        1.如果cur.left == null
+          1.1 cur == root
+              root = cur.right;
+          1.2 cur!= root,cur是parent结点的left
+              parent.left = cur.right;
+          1.3 cur!= root,cur是parent的right
+              parent.right = cur.right;
+        2.如果cur.right == null
+          2.1 cur == root
+              root = cur.left;
+          2.2 cur!= root,cur是parent的left 
+              parent.left = cur.left;
+          2.3 cur!= root,cur是parent的right
+              parent.right = cur.left;
+        3.cur.left != null && cur.right != null
+          3.1 同时有左右子树的情况
+            a) 要去待删除节点的右子树中去找最左侧元素（或者左子树最右侧元素）, 替罪羊
+            b) 把替罪羊的 key value 赋值到待删除节点中
+            c) 再删除替罪羊节点(删除替罪羊节点的过程就和上面讨论的过程是一样的)
+                 替罪羊一定没有左子树, 还需要根据替罪羊是
+                 父节点的左还是右还得进一步判定如何删除
+
+> ***构建二叉搜索树***
+
+***代码***
+
+```java
+public class BinarySearchTree {
+    public static class Node {
+        public int key;
+        public int value;
+        Node left;
+        Node right;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "key=" + key +
+                    ", value=" + value +
+                    '}';
+        }
+    }
+
+    // 创建一个根节点, 初始情况下是空树, 根节点指向 null
+    private Node root = null;
+
+    // 查找
+    public Node search(int key) {
+        // 从 root 出发, 比较 key 和 root 中 key 的大小关系
+        // 根据这个关系来决定接下来在左子树中找, 还是右子树中找
+        // 如果遇到 null 说明查找完毕了
+        Node cur = root;
+        while (cur != null) {
+            if (key == cur.key) {
+                // 找到了!
+                return cur;
+            } else if (key < cur.key) {
+                // 去左子树找
+                cur = cur.left;
+            } else {
+                // 去右子树找
+                cur = cur.right;
+            }
+        }
+        // 没找到
+        return null;
+    }
+
+    // 插入
+    // 1. 先找到合适位置
+    // 2. 把新的节点放到合适的位置就行了
+    // 啥时候会插入失败呢?
+    // 约定方式一:
+    // 如果当前的 key 在树中已经存在了, 认为插入失败
+    // 约定方式二:
+    // 如果当前的 key 存在, 直接修改 value
+    public boolean insert(int key, int value) {
+        // 1. 如果当前要插入的树是空树的话, 直接让 root
+        //    指向新节点即可
+        if (root == null) {
+            root = new Node(key, value);
+            return true;
+        }
+        // 2. 对于一个不是空的树, 需要先找到合适的位置
+        //    查找的过程中, 随时要记录当前节点的父亲
+        Node cur = root;
+        // 让 parent 一直要指向 cur 的父节点
+        Node parent = null;
+        while (cur != null) {
+            if (key == cur.key) {
+                // 已经存在了
+                return false;
+            } else if (key < cur.key) {
+                // 在左子树中找
+                parent = cur;
+                cur = cur.left;
+            } else {
+                parent = cur;
+                cur = cur.right;
+            }
+        }
+        // 循环结束的时候, cur 一定是 null
+        // 新节点就应该插入到 parent 下方
+        // 上面的循环, 关键点在于要确定 parent 是谁
+        Node newNode = new Node(key, value);
+        if (key < parent.key) {
+            // 应该插入到左子树位置
+            parent.left = newNode;
+        } else {
+            // 插入到右子树的位置
+            parent.right = newNode;
+        }
+        return true;
+    }
+
+    public boolean remove(int key) {
+        Node cur = root;
+        Node parent = null;
+        // 查找要删除的元素的位置
+        while (cur != null) {
+            if (key == cur.key) {
+                // 找到了!
+                removeNode(parent, cur);
+                return true;
+            } else if (key < cur.key) {
+                // 向左找
+                parent = cur;
+                cur = cur.left;
+            } else {
+                // 向右找
+                parent = cur;
+                cur = cur.right;
+            }
+        }
+        // 树中没有找到对应的节点
+        return false;
+    }
+
+    private void removeNode(Node parent, Node cur) {
+        if (cur.left == null) {
+            // 1. 没有左子树的情况
+            if (cur == root) {
+                // 1.1 直接让 root 指向 cur.right
+                root = cur.right;
+            } else if (cur == parent.left) {
+                // 1.2 让 parent 的 left 指向 cur 的 right
+                parent.left = cur.right;
+            } else {
+                // 1.3 让 parent 的 right 指向 cur 的 right
+                parent.right = cur.right;
+            }
+        } else if (cur.right == null) {
+            // 2. 没有右子树的情况
+            if (cur == root) {
+                // 2.1 直接让 root 指向 cur.left
+                root = cur.left;
+            } else if (cur == parent.left) {
+                // 2.2 让 parent 的 left 指向 cur 的 left
+                parent.left = cur.left;
+            } else {
+                // 2.3 让 parent 的 right 指向 cur 的 left
+                parent.right = cur.left;
+            }
+        } else {
+            // 3. 同时有左右子树的情况
+            Node scapeGoat = cur.right;
+            Node goatParent = cur;
+            //  a) 要去待删除节点的右子树中去找最左侧元素, 替罪羊
+            while (scapeGoat.left != null) {
+                goatParent = scapeGoat;
+                scapeGoat = scapeGoat.left;
+            }
+            // 循环结束的时候, scapeGoat 就是替罪羊节点.
+            //  b) 把替罪羊的 key value 赋值到待删除节点中
+            cur.key = scapeGoat.key;
+            cur.value = scapeGoat.value;
+            //  c) 再删除替罪羊节点(删除替罪羊节点的过程就和上面讨论的过程是一样的)
+            //     替罪羊一定没有左子树, 还需要根据替罪羊是
+            //     父节点的左还是右还得进一步判定如何删除
+            if (scapeGoat == goatParent.left) {
+                // 替罪羊节点是父亲的左子树
+                goatParent.left = scapeGoat.right;
+            } else {
+                // 当前替罪羊节点正好就是 cur.right 的时候
+                // 就满足这个分支的情况
+                goatParent.right = scapeGoat.right;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // 建立一个二叉搜索树
+        BinarySearchTree tree = new BinarySearchTree();
+
+        int[] arr = {9, 5, 2, 7, 3, 6, 8};
+        for (int x : arr) {
+            tree.insert(x, 0);
+        }
+        System.out.println(tree.search(3));
+        tree.remove(5);
+        preOrder(tree.root);
+        System.out.println();
+        inOrder(tree.root);
+        System.out.println();
+    }
+
+    public static void preOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        System.out.print(root.key + " ");
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
+    public static void inOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        System.out.print(root.key + " ");
+        inOrder(root.right);
+    }
+}
+
+```
+
+> 查找效率：
+
+    最优情况下，二叉搜索树为完全二叉树，其平均比较次数为:log2N
+    最差情况下，二叉搜索树退化为单支树，其平均比较次数为：N/2
+    
+> 优化手段:让树更平衡一点（满足左右子树高度差不超过1，平衡二叉树）
+
+***平衡二叉树具体实现：***
+
+> 1.AVL树：要求比较严格的平衡二叉树，要求必须满足左右子树高度差不超过1.
+        若超过，需要调整树的结构.(旋转)
+> 2.红黑树：特点有6条规则，红黑树是一种不太严格的平衡二叉树.左右子树也不能相差过多
+
+    TreeSet/TreeMap 基于红黑树
+        红黑树本质上是在提升查找效率和减少调整次数上，作出权衡
+
+### HashMap
+
+***1.给一个[9,5,2,7,3,6,8]数组进行插入时间复杂度O(N)
+2.而定义boolean数组 10个元素
+这个数组的效果用来判定某个元素是否存在***
+
+![](https://github.com/q1206271031/photo/raw/master/%E5%93%88%E5%B8%8C%E8%A1%A8/10%E4%B8%AA%E5%85%83%E7%B4%A0.png)
+
+***这个时间复杂度为O(1)，因为内存具有随机访问能力***
+
+> 若给数组[109,105,102,107],问103是否存在
+
+    插入数组时候把值减100，再作为下标
+
+> 但若给定数组中元素相差过大时，如boolean arr=[1,100w,1000,1亿]
+
+    此时可以通过i%100 = 数组下标 来进行转换或其他方法
+
+***哈希表，基于数组实现，依赖了数组下标的随机访问能力
+设计哈希表的过程中，需要考虑如何把key转换成数组下标，转换的体积过程/公式-》哈希函数***
+
+> 针对 哈希表 的查找操作时间复杂度为O(1)
+
+> 哈希冲突：如果两个key经过同一个hash算法得到的下标相同，意味着两个元素要放置的位置就冲突了
+
+> 哈希冲突的本质原因，是吧一个比较大范围的元素映射到了比较小的范围上,所以哈希冲突客观存在
+
+> 解决冲突：
+  
+___1.使用素数长度capacity，降低冲突的概率(无法避免)___
+___ ___
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
