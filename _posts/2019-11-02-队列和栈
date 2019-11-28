@@ -1,3 +1,16 @@
+---
+layout:     post
+title:      队列和栈
+subtitle:   队列和栈
+date:       2019-11-02
+author:     BY
+header-img: img/post-bg-cook.jpg
+catalog: true
+tags:
+    - java
+---
+
+
 ### 队列和栈
 
 > 栈：先进后出
