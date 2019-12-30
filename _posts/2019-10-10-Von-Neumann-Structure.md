@@ -111,7 +111,7 @@ tags:
 
 **程序的运行**
 
-![](https://github.com/q1206271031/photo/raw/master/1/5.png
+![](https://github.com/q1206271031/photo/raw/master/1/5.png)
 
 > 执行如下代码
 
